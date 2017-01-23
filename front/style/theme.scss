@@ -1,0 +1,201 @@
+$margin: 8px;
+
+$color-background: #303030;
+$color-ok: #4CC18B;
+$color-warning: #FD9432;
+$color-error: #CA2C48;
+$color-white: #FFF;
+
+body {
+  font-family: 'Lato', sans-serif;
+  margin {
+    top: $margin;
+    right: $margin;
+    bottom: $margin;
+    left: $margin + 2;
+  }
+  background-color: $color-background;
+}
+
+.issue {
+  $height: 55px;
+  $width: 174px;
+  $radius: 5px;
+
+  font-weight: 300;
+  color: $color-white;
+  font-size: 28px;
+  display: inline-block;
+  overflow: auto;
+  float: left;
+  margin: $margin;
+  position: relative;
+
+  > .number,
+  > .avatar {
+    float: left;
+  }
+
+  > .number {
+    box-sizing: border-box;
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+    display: inline-block;
+    height: $height;
+    width: $width - $height;
+    background-color: $color-error;
+    line-height: $height;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  &.wait-for-user {
+    > .number {
+      background-image: url('img/angle.png');
+      background-repeat: no-repeat;
+    }
+  }
+
+  &.not-assignee {
+    > .number {
+      padding-right: $height;
+    }
+  }
+
+  &.ok {
+    > .number {
+      background-color: $color-ok;
+    }
+  }
+
+  &.warning {
+    > .number {
+      background-color: $color-warning;
+    }
+  }
+
+  > .avatar {
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    width: $height;
+    height: $height;
+  }
+
+  &.not-assignee {
+    position: relative;
+
+    > .number {
+      border-radius: $radius;
+      width: $width;
+    }
+    > .avatar {
+      display: none;
+    }
+
+    &:before, &:after {
+      content: ' ';
+      position: absolute;
+      background: $color-white;
+    }
+
+    &.ok, &.warning {
+      &:before, &:after {
+        background: $color-error;
+      }
+    }
+
+    &:before {
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in;
+    }
+
+    &.ok {
+      &:before {
+        @keyframes notification-ok {
+          $size-start: 4px;
+          $size-end: 24px;
+          0%   {
+            background: $color-error;
+            width: $size-start;
+            height: $size-start;
+            border-radius: $size-start;
+            right: ($height - $size-start) / 2;
+            top: ($height - $size-start) / 2;
+          }
+          25% {
+            background: $color-ok;
+            width: $size-end;
+            height: $size-end;
+            border-radius: $size-end;
+            right: ($height - $size-end) / 2;
+            top: ($height - $size-end) / 2;
+          }
+        }
+        animation-name: notification-ok;
+      }
+    }
+
+    &.warning {
+      &:before {
+        @keyframes notification-warning {
+          $size-start: 4px;
+          $size-end: 24px;
+          0%   {
+            background: $color-error;
+            width: $size-start;
+            height: $size-start;
+            border-radius: $size-start;
+            right: ($height - $size-start) / 2;
+            top: ($height - $size-start) / 2;
+          }
+          25% {
+            background: $color-warning;
+            width: $size-end;
+            height: $size-end;
+            border-radius: $size-end;
+            right: ($height - $size-end) / 2;
+            top: ($height - $size-end) / 2;
+          }
+        }
+        animation-name: notification-warning;
+      }
+    }
+
+    &.error {
+      &:before {
+        @keyframes notification-error {
+          $size-start: 4px;
+          $size-end: 24px;
+          0%   {
+            background: $color-white;
+            width: $size-start;
+            height: $size-start;
+            border-radius: $size-start;
+            right: ($height - $size-start) / 2;
+            top: ($height - $size-start) / 2;
+          }
+          25% {
+            background: $color-error;
+            width: $size-end;
+            height: $size-end;
+            border-radius: $size-end;
+            right: ($height - $size-end) / 2;
+            top: ($height - $size-end) / 2;
+          }
+        }
+        animation-name: notification-error;
+      }
+    }
+
+
+    &:after {
+      $size: 8px;
+      height: $size;
+      width: $size;
+      border-radius: $size;
+      right: ($height - $size) / 2;
+      top: ($height - $size) / 2;
+    }
+  }
+}
