@@ -43,7 +43,6 @@ module.exports = {
     new ExtractTextPlugin('theme.css'),
     new CopyWebpackPlugin([
       { from: './index.html', to: '../public/index.html' },
-      /* { from: './style/img', to: '../public/img' }, */
     ]),
     /*new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
