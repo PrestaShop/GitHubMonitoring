@@ -105,7 +105,7 @@ body {
     }
 
     &:before {
-      animation-duration: 4s;
+      animation-duration: 5s;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in;
     }
@@ -123,13 +123,16 @@ body {
             right: ($height - $size-start) / 2;
             top: ($height - $size-start) / 2;
           }
-          25% {
+          20% {
             background: $color-ok;
             width: $size-end;
             height: $size-end;
             border-radius: $size-end;
             right: ($height - $size-end) / 2;
             top: ($height - $size-end) / 2;
+          }
+          100% {
+            background: $color-ok;
           }
         }
         animation-name: notification-ok;
@@ -157,6 +160,9 @@ body {
             right: ($height - $size-end) / 2;
             top: ($height - $size-end) / 2;
           }
+          100% {
+            background: $color-warning;
+          }
         }
         animation-name: notification-warning;
       }
@@ -183,11 +189,13 @@ body {
             right: ($height - $size-end) / 2;
             top: ($height - $size-end) / 2;
           }
+          100% {
+            background: $color-error;
+          }
         }
         animation-name: notification-error;
       }
     }
-
 
     &:after {
       $size: 8px;
