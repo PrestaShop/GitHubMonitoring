@@ -26,5 +26,26 @@
     "joi": "^10.2.0",
     "mocha": "^3.2.0",
     "mongodb": "^2.2.21"
+  },
+  "babel": {
+    "presets": ["latest", "stage-2"]
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import"
+    ],
+    "globals": {
+      "src": true
+    }
   }
 }
