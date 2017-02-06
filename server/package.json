@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
+    "debug": "DEBUG=src:*,index DEBUG_COLORS=0 babel-node index.js",
     "test": "mocha test --compilers js:babel-register --timeout 500"
   },
   "author": "",
@@ -16,6 +17,7 @@
     "babel-preset-stage-2": "^6.18.0",
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
+    "debug": "^2.6.0",
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -27,8 +29,27 @@
     "mocha": "^3.2.0",
     "mongodb": "^2.2.21"
   },
+  "settings": {
+    "github": {
+      "agent": "GitHub PullRequests Monitoring Tool",
+      "username": "Shudrum",
+      "key": "b822b99a85fcd24e5fcf997406426ac2483ee258",
+      "repository": "PrestaShop/PrestaShop",
+      "bases": [
+        "develop",
+        "1.7.0.x"
+      ]
+    },
+    "frequencies": {
+      "updateAll": 300,
+      "updateOne": 2
+    }
+  },
   "babel": {
-    "presets": ["latest", "stage-2"]
+    "presets": [
+      "latest",
+      "stage-2"
+    ]
   },
   "eslintConfig": {
     "extends": "airbnb",
