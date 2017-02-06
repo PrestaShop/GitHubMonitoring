@@ -22,7 +22,6 @@ module.exports = {
       test: /\.js$/,
       loader: 'babel',
       query: {
-        plugins: ['transform-object-assign'],
         presets: ['es2015', 'react'],
       }
     }, {
@@ -44,19 +43,5 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: './index.html', to: '../public/index.html' },
     ]),
-    /*new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false,
-      compress: {
-        sequences: true,
-        conditionals: true,
-        booleans: true,
-        if_return: true,
-        join_vars: true,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      }
-    })*/
   ]
 };
