@@ -1,45 +1,46 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchData } from '../../actions/data';
+import { fetchPulls } from '../../actions/pulls';
 import Pr from './Pr';
 
 const PrListComponent = React.createClass({
   componentDidMount() {
-    this.props.fetchData();
+    this.props.fetchPulls();
   },
   render() {
-    const pullRequestsVisible = [];
-    this.props.pullRequests.forEach((pullRequest) => {
-      pullRequestsVisible.push(
+    console.log(this.props.pulls);
+    const pulls = [];
+    this.props.pulls.forEach((pull) => {
+      pulls.push(
         <Pr
-          key={pullRequest.number}
-          data={pullRequest}
+          key={pull.number}
+          data={pull}
         />
       );
     });
     return (
       <div>
-        {pullRequestsVisible}
+        {pulls}
       </div>
     )
   }
 });
 
 PrListComponent.propTypes = {
-  fetchData: PropTypes.func.isRequired,
-  pullRequests: PropTypes.array.isRequired,
+  fetchPulls: PropTypes.func.isRequired,
+  pulls: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    pullRequests: state.data,
+    pulls: state.pulls,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => {
-      dispatch(fetchData())
+    fetchPulls: () => {
+      dispatch(fetchPulls())
     }
   }
 }

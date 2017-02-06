@@ -1,13 +1,15 @@
 $margin: 8px;
 
 $color-background: #303030;
-$color-ok: #4CC18B;
-$color-warning: #FD9432;
-$color-error: #CA2C48;
+$color-ok: #37A958;
+$color-warning: #FF982B;
+$color-error: #D03641;
+$color-merged: #7845A0;
 $color-white: #FFF;
 
 body {
   font-family: 'Lato', sans-serif;
+  letter-spacing: 1px;
   margin {
     top: $margin;
     right: $margin;
@@ -30,6 +32,8 @@ body {
   float: left;
   margin: $margin;
   position: relative;
+  border-radius: $radius;
+  position: relative;
 
   > .number,
   > .avatar {
@@ -42,7 +46,8 @@ body {
     border-bottom-left-radius: $radius;
     display: inline-block;
     height: $height;
-    width: $width - $height;
+    width: $width;
+    padding-right: $height;
     background-color: $color-error;
     line-height: $height;
     vertical-align: middle;
@@ -53,12 +58,6 @@ body {
     > .number {
       background-image: url('img/angle.png');
       background-repeat: no-repeat;
-    }
-  }
-
-  &.not-assignee {
-    > .number {
-      padding-right: $height;
     }
   }
 
@@ -74,20 +73,25 @@ body {
     }
   }
 
+  &.merged {
+    > .number {
+      background-color: $color-merged;
+    }
+  }
+
   > .avatar {
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
     width: $height;
     height: $height;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   &.not-assignee {
     position: relative;
 
-    > .number {
-      border-radius: $radius;
-      width: $width;
-    }
     > .avatar {
       display: none;
     }
@@ -96,12 +100,6 @@ body {
       content: ' ';
       position: absolute;
       background: $color-white;
-    }
-
-    &.ok, &.warning {
-      &:before, &:after {
-        background: $color-error;
-      }
     }
 
     &:before {
@@ -116,7 +114,7 @@ body {
           $size-start: 4px;
           $size-end: 24px;
           0%   {
-            background: $color-error;
+            background: $color-white;
             width: $size-start;
             height: $size-start;
             border-radius: $size-start;
@@ -145,7 +143,7 @@ body {
           $size-start: 4px;
           $size-end: 24px;
           0%   {
-            background: $color-error;
+            background: $color-white;
             width: $size-start;
             height: $size-start;
             border-radius: $size-start;

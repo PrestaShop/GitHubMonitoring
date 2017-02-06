@@ -4,18 +4,21 @@ import configuration from '../../Configuration';
 const delays = configuration.delays;
 const ignoreUser = configuration.ignoreUser;
 const team = configuration.team;
-const debugPr = 0;
 
 const Pr = React.createClass({
   render() {
     const data = this.props.data;
+    const pull = data.pull;
+    const comments = data.comments;
     const now = new Date().getTime();
 
-    let pullRequestUser = data.from;
+    let assignee = Object.assign({}, pull.assignee);
+
+    let pullRequestUser = pull.from;
     let lastCommentFromTeam = false;
     let lastComment = null;
-    if (data.comments) {
-      data.comments.forEach((comment) => {
+    if (comments) {
+      comments.forEach((comment) => {
         // Do not read the comments from ignored people
         if (ignoreUser.indexOf(comment.login) === -1) {
           lastComment = comment;
@@ -36,7 +39,7 @@ const Pr = React.createClass({
     }
 
     // By default a PR is marked as an alert (no defined class)
-    let status = 'error';
+    let status = ' error';
 
     // Green if:
     // - The creation date is less than x hours from the responseTimeWarning
@@ -45,11 +48,11 @@ const Pr = React.createClass({
     // - The last comment is from someone from the team and the date is less than x hours from the
     //   waitingForUserResponseWarning
     if (
-      (now < (data.created_at + delays.responseTimeWarning))
+      (now < (pull.created_at + delays.responseTimeWarning))
       || (!lastCommentFromTeam && (lastComment && (now < (lastComment.created_at + delays.responseTimeWarning))))
       || (lastCommentFromTeam && (now < (lastComment.created_at + delays.waitingForUserResponseWarning)))
     ) {
-      status = 'ok';
+      status = ' ok';
     }
 
     // Warn if:
@@ -58,30 +61,38 @@ const Pr = React.createClass({
     // - The last comment is from someone from the team and the date is less than x hours from the
     //   waitingForUserResponseAlert
     else if (
-      (now < (data.created_at + delays.responseTimeAlert) && lastComment === null)
+      (now < (pull.created_at + delays.responseTimeAlert) && lastComment === null)
       || (!lastCommentFromTeam && (lastComment && (now < (lastComment.created_at + delays.responseTimeAlert))))
       || (lastCommentFromTeam && (now < (lastComment.created_at + delays.waitingForUserResponseAlert)))
     ) {
-      status = 'warning';
+      status = ' warning';
     }
 
     let waitForUser = '';
-    if (!lastCommentFromTeam && status != 'ok') {
-      waitForUser = 'wait-for-user';
+    if (!lastCommentFromTeam && status != ' ok') {
+      waitForUser = ' wait-for-user';
     }
 
-    if (data.assignee) {
+    if (pull.merged_at) {
+      status = ' merged';
+
+      if (typeof assignee.avatar_url === 'undefined') {
+        assignee = Object.assign({}, pull.merged_by);
+      }
+    }
+
+    if (typeof assignee.avatar_url !== 'undefined') {
       return (
-        <div className={`issue ${status} ${waitForUser}`}>
-          <span className="number">{data.number}</span>
-          <img className="avatar" src={data.assignee.avatar_url} />
+        <div className={`issue${status}${waitForUser}`}>
+          <span className="number">{pull.number}</span>
+          <img className="avatar" src={assignee.avatar_url} />
         </div>
       );
     };
 
     return (
-      <div className={`issue not-assignee ${status}`}>
-        <span className="number">{data.number}</span>
+      <div className={`issue not-assignee${status}`}>
+        <span className="number">{pull.number}</span>
       </div>
     );
   },

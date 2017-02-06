@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import data from './data';
+import pulls from './pulls';
 
-const reducers = combineReducers({ data })
+const reducers = combineReducers({ pulls });
 
-export default reducers
+export default reducers;

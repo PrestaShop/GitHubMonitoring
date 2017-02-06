@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
-export const REQUEST_DATA = 'REQUEST_USER_LOGIN';
-export const RECEIVE_DATA = 'RECEIVE_USER_LOGIN';
+export const REQUEST_PULLS = 'REQUEST_PULLS';
+export const RECEIVE_PULLS = 'RECEIVE_PULLS';
 
-export function fetchData() {
+export function fetchPulls() {
   return (dispatch, getState) => {
     dispatch(request());
     return fetch('data.json', { method: 'GET' })
@@ -13,10 +13,10 @@ export function fetchData() {
 };
 
 function request() {
-  return { type: REQUEST_DATA };
+  return { type: REQUEST_PULLS };
 };
 
 function receive(dispatch, json) {
-  setTimeout(() => { dispatch(fetchData()); }, 5000);
-  return Object.assign({ type: RECEIVE_DATA }, { json });
+  setTimeout(() => { dispatch(fetchPulls()); }, 5000);
+  return Object.assign({ type: RECEIVE_PULLS }, { json });
 };
