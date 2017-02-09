@@ -11,7 +11,7 @@ const server = new Hapi.Server();
  */
 const start = (callback) => {
   server.register(Inert, () => {});
-  server.connection({ port: 3000 });
+  server.connection({ port: 3000, routes: { cors: true } });
 
   // Redirect to the root path if the request cannot be handled.
   server.ext('onPreResponse', (request, reply) => {
