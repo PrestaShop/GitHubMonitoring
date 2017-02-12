@@ -16,6 +16,7 @@ const start = (callback) => {
   // Redirect to the root path if the request cannot be handled.
   server.ext('onPreResponse', (request, reply) => {
     debug(`GET ${request.path}`);
+    console.log(request);
     if (request.response.isBoom) {
       return reply.redirect('/');
     }
@@ -28,6 +29,13 @@ const start = (callback) => {
     path: '/',
     handler: (request, reply) => {
       reply.file('../public/index.html', { confine: false });
+    },
+  });
+  server.route({
+    method: 'POST',
+    path: '/',
+    handler: (request, reply) => {
+      console.log(request.payload)
     },
   });
 

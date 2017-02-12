@@ -1,6 +1,6 @@
 <template>
-  <div :key="number" class="issue" v-bind:class="status">
-    <img class="avatar" v-if="assignee" v-bind:src="assignee.avatar_url"/>
+  <div :key="number" class="issue" :class="status">
+    <img class="avatar" v-if="assignee" :src="assignee.avatar_url"/>
     <i class="material-icons not-assignee"v-if="!assignee">error_outline</i>
     <div class="number">{{ number }}</div>
   </div>
@@ -16,7 +16,7 @@ const team = configuration.team;
 const DEBUG_PR = 7439;
 
 module.exports = {
-  props: ['pull'],
+  props: ['pull', 'assignee'],
   data: function() {
     return this.getDetails();
   },
@@ -71,7 +71,6 @@ module.exports = {
 
       return {
         number: pull.number,
-        assignee: assignee,
       };
     },
   },

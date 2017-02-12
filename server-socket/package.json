@@ -1,0 +1,30 @@
+{
+  "name": "server-socket",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "settings": {
+    "github": {
+      "agent": "GitHub PullRequests Monitoring Tool",
+      "username": "Shudrum",
+      "key": "b822b99a85fcd24e5fcf997406426ac2483ee258",
+      "repository": "Shudrum/Test",
+      "bases": [
+        "master"
+      ]
+    },
+    "frequencies": {
+      "updateAll": 10
+    }
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "hapi": "^16.1.0",
+    "inert": "^4.1.0",
+    "nes": "^6.4.0",
+    "request": "^2.79.0",
+    "socket.io": "^1.7.2"
+  }
+}

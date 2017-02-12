@@ -34,15 +34,14 @@
       "agent": "GitHub PullRequests Monitoring Tool",
       "username": "Shudrum",
       "key": "b822b99a85fcd24e5fcf997406426ac2483ee258",
-      "repository": "PrestaShop/PrestaShop",
+      "repository": "Shudrum/Test",
       "bases": [
-        "develop",
-        "1.7.0.x"
+        "master"
       ]
     },
     "frequencies": {
-      "updateAll": 300,
-      "updateOne": 2
+      "updateAll": 10,
+      "updateOne": 5
     }
   },
   "babel": {

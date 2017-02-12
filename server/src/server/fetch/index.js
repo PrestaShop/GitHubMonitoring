@@ -50,6 +50,7 @@ const updateOldestUpdatedPull = (callback = () => {}) => {
     },
     (pull, next) => {
       if (pull) {
+        console.log('Update pull request '+pull.number);
         currentPull = pull;
         getPull(currentPull.number, next);
       }
@@ -95,14 +96,14 @@ const start = () => {
     throw new Error('The mongoDb connexion is required');
   }
 
-  setInterval(updatePullRequestList, settings.frequencies.updateAll * 1000);
+  //setInterval(updatePullRequestList, settings.frequencies.updateAll * 1000);
   updatePullRequestList((err) => {
     if (err) {
       throw err;
     }
   });
 
-  setInterval(updateOldestUpdatedPull, settings.frequencies.updateOne * 1000);
+  //setInterval(updateOldestUpdatedPull, settings.frequencies.updateOne * 1000);
   updateOldestUpdatedPull((err) => {
     if (err) {
       throw err;
