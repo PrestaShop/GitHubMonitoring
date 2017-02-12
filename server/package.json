@@ -1,72 +1,30 @@
 {
-  "name": "server",
+  "name": "server-socket",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "start": "babel-node index.js",
-    "debug": "DEBUG=src:*,index DEBUG_COLORS=0 babel-node index.js",
-    "test": "mocha test --compilers js:babel-register --timeout 500"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "async": "^2.1.4",
-    "babel-cli": "^6.18.0",
-    "babel-preset-latest": "^6.16.0",
-    "babel-preset-stage-2": "^6.18.0",
-    "babel-register": "^6.18.0",
-    "chai": "^3.5.0",
-    "debug": "^2.6.0",
-    "eslint": "^3.13.1",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^6.9.0",
-    "hapi": "^16.1.0",
-    "inert": "^4.1.0",
-    "joi": "^10.2.0",
-    "mocha": "^3.2.0",
-    "mongodb": "^2.2.21"
+    "start": "node index.js"
   },
   "settings": {
     "github": {
       "agent": "GitHub PullRequests Monitoring Tool",
       "username": "Shudrum",
       "key": "b822b99a85fcd24e5fcf997406426ac2483ee258",
-      "repository": "PrestaShop/PrestaShop",
+      "repository": "Shudrum/Test",
       "bases": [
-        "develop",
-        "1.7.0.x"
+        "master"
       ]
     },
     "frequencies": {
-      "updateAll": 300,
-      "updateOne": 2
+      "updateAll": 10
     }
   },
-  "babel": {
-    "presets": [
-      "latest",
-      "stage-2"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "airbnb",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import"
-    ],
-    "globals": {
-      "src": true
-    }
+  "dependencies": {
+    "async": "^2.1.4",
+    "hapi": "^16.1.0",
+    "inert": "^4.1.0",
+    "nes": "^6.4.0",
+    "request": "^2.79.0",
+    "socket.io": "^1.7.2"
   }
 }
