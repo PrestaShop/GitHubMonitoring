@@ -1,0 +1,11 @@
+{
+  "github": {
+    "agent": "GitHub Monitoring",
+    "username": "",
+    "key": "",
+    "repository": "",
+    "bases": [
+      "master"
+    ]
+  }
+}

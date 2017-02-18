@@ -1,6 +1,6 @@
 const request = require('request');
 const async = require('async');
-const settings = require('../package.json').settings;
+const settings = require('../configuration');
 
 let pulls = [];
 const defaultPull = {
