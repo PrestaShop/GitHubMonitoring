@@ -1,13 +1,17 @@
 const Hapi = require('hapi');
 const Nes = require('nes');
 const Inert = require('inert');
-const githubApi = require('./src/githubApi');
+const githubApi = require('./githubApi');
 
 const server = new Hapi.Server();
 server.register(Inert, () => {});
 server.connection({ port: 3000, routes: { cors: true } });
 
 server.register(Nes, (err) => {
+  if (err) {
+    throw err;
+  }
+
   server.route([{
     method: 'GET',
     path: '/',
@@ -19,7 +23,7 @@ server.register(Nes, (err) => {
     path: '/ws',
     config: {
       id: 'connection',
-      handler: function (request, reply) {
+      handler: (request, reply) => {
         githubApi.getData((err, result) => {
           if (!err) {
             reply(result);
@@ -30,7 +34,7 @@ server.register(Nes, (err) => {
   }, {
     method: 'POST',
     path: '/',
-    handler: (request, reply) => {
+    handler: (request) => {
       if (typeof request.payload.action !== 'undefined') {
         switch (request.payload.action) {
           case 'assigned':
@@ -56,7 +60,7 @@ server.register(Nes, (err) => {
               number: request.payload.number,
               title: request.payload.pull_request.title,
               merged: request.payload.pull_request.merged_at !== null,
-              merged_at: typeof request.payload.pull_request.merged_at !== null
+              merged_at: request.payload.pull_request.merged_at !== null
                 ? request.payload.pull_request.merged_at
                 : (new Date(0)).toISOString(),
               merged_by_avatar: request.payload.pull_request.user.avatar_url,
@@ -83,7 +87,7 @@ server.register(Nes, (err) => {
                   created_at: request.payload.pull_request.created_at,
                   body: result,
                 });
-              };
+              }
             });
             break;
           case 'created':
@@ -98,7 +102,7 @@ server.register(Nes, (err) => {
                   last_comment_date: request.payload.comment.created_at,
                   body: result,
                 });
-              };
+              }
             });
             break;
         }

@@ -45,8 +45,8 @@ const get = (path, callback) => {
 const getISODate = () => {
   const date = new Date(Date.now() - (8 * 3600 * 1000));
   const day = date.getFullYear()
-    + '-' + (date.getMonth() < 9 ? '0' : '' ) + (date.getMonth() + 1)
-    + '-' +  (date.getDate() < 10 ? '0' : '' ) + date.getDate()
+    + '-' + (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1)
+    + '-' + (date.getDate() < 10 ? '0' : '') + date.getDate()
   const hour = (date.getHours() < 10 ? '0' : '') + date.getHours()
     + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
     + ':' + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
@@ -104,7 +104,7 @@ const updatePullRequest = (number, callback) => {
   get(`/repos/${settings.github.repository}/pulls/${number}`, (err, result) => {
     if (!err) {
       pulls.forEach((pull) => {
-        if (pull.number == number) {
+        if (pull.number === number) {
           pull.merged_by = result.merged_by.login;
           pull.merged_by_avatar = result.merged_by.avatar_url;
           pull.merged_at = result.merged_at;
@@ -118,7 +118,7 @@ const updatePullRequest = (number, callback) => {
 const updateLastComment = (number, callback) => {
   let page;
   pulls.forEach((pull) => {
-    if (pull.number == number) {
+    if (pull.number === number) {
       page = Math.ceil(pull.comments / 100);
     }
   });
@@ -126,7 +126,7 @@ const updateLastComment = (number, callback) => {
     if (!err) {
       const comment = result.pop();
       pulls.forEach((pull) => {
-        if (pull.number == number) {
+        if (pull.number === number) {
           pull.last_comment_user = comment.user.login;
           pull.last_comment_date = comment.created_at;
         }
@@ -139,7 +139,7 @@ const updateLastComment = (number, callback) => {
 module.exports.mdToHtml = (md, callback) => {
   request({
     method: 'POST',
-    url: `https://api.github.com/markdown`,
+    url: 'https://api.github.com/markdown',
     auth: {
       user: settings.github.username,
       pass: settings.github.key,
@@ -178,7 +178,7 @@ module.exports.getData = (callback) => {
         }
       }, next);
     },
-  ], (err, result) => {
+  ], (err) => {
     callback(err, pulls);
   });
 };

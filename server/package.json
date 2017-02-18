@@ -2,8 +2,9 @@
   "name": "server-socket",
   "version": "1.0.0",
   "private": true,
+  "main": "lib/server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node lib/server.js"
   },
   "dependencies": {
     "async": "^2.1.4",
