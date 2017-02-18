@@ -1,0 +1,16 @@
+machine:
+  timezone:
+    Europe/Paris
+  node:
+    version:
+      6.9.1
+  services:
+    - docker
+compile:
+  override:
+    - cd server && npm install
+test:
+  override:
+    - cd server && ./node_modules/.bin/eslint './**/*.js' -f junit -o $CIRCLE_TEST_REPORTS/server/lint-results.xml:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/server/lint-results.xml
