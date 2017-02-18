@@ -13,6 +13,9 @@ const store = new Vuex.Store({
   mutations: {
     setPulls: (state, pulls) => {
       state.pulls = pulls;
+      state.pulls.sort((a, b) => {
+        return b.number - a.number;
+      });
     },
     updatePull: (state, pullUpdate) => {
       let indexToUpdate = -1;
@@ -88,8 +91,6 @@ client.connect((err) => {
   const displayEvent = () => {
     let eventToDisplay = events.shift();
     if (eventToDisplay) {
-
-
       setTimeout(displayEvent, 10 * 1000);
     } else {
       setTimeout(displayEvent, 100);
