@@ -38,7 +38,7 @@ server.register(Nes, (err) => {
               is_event: true,
               type: 'assigned',
               number: request.payload.number,
-              assignee_avatar: request.payload.pull_request.user.avatar_url,
+              assignee_avatar: request.payload.pull_request.assignee.avatar_url,
             });
             break;
           case 'unassigned':
