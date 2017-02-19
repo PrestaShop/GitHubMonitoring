@@ -10,6 +10,11 @@ if (localConfiguration) {
     distConfiguration.github,
     localConfiguration.github,
   );
+  mergedConfiguration.server = Object.assign(
+    {},
+    distConfiguration.server,
+    localConfiguration.server,
+  );
   module.exports = mergedConfiguration;
 } else {
   module.exports = distConfiguration;
