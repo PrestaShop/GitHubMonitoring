@@ -1,4 +1,3 @@
-
 /**
  * @param {object} - Base issue used when a new one is requested.
  */
