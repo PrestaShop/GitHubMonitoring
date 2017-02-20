@@ -72,4 +72,18 @@ describe('issuesContainer', () => {
       assert.equal(0, issuesContainer.getIssues().length);
     });
   });
+  describe('#count', () => {
+    before(() => {
+      issuesContainer.clearAll();
+    });
+    it('should return the correct amount of pulls when empty', () => {
+      assert.equal(0, issuesContainer.count());
+    });
+    it('should return the correct amount of pulls when not empty', () => {
+      issuesContainer.addIssue({ number: 1, title: '1' });
+      issuesContainer.addIssue({ number: 2, title: '2' });
+      issuesContainer.addIssue({ number: 3, title: '3' });
+      assert.equal(3, issuesContainer.count());
+    });
+  });
 });

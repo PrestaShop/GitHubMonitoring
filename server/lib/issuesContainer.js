@@ -39,8 +39,15 @@ const getIssues = () => {
   return issuesArray;
 };
 
+/**
+ * Return the amount of issues.
+ * @return {integer} - Amount of issues.
+ */
+const count = () => getIssues().length;
+
 module.exports = {
   addIssue,
   clearAll,
   getIssues,
+  count,
 };
