@@ -3,6 +3,11 @@ const githubApi = require('../lib/githubApi');
 const issue = require('../lib/issue');
 const issuesContainer = require('../lib/issuesContainer');
 
+/**
+ * Fetch all the needed data from the GitHub API.
+ * @param {object} configuration - Application configuration.
+ * @param {requestCallback} callback
+ */
 const fetchData = (configuration, callback) => {
   async.waterfall([
     (next) => {
