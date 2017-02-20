@@ -11,5 +11,8 @@
   "server": {
     "port": 3000,
     "cors": false
+  },
+  "display": {
+    "merged_display_time": 8
   }
 }

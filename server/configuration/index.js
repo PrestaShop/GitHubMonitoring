@@ -15,6 +15,11 @@ if (localConfiguration) {
     distConfiguration.server,
     localConfiguration.server,
   );
+  mergedConfiguration.display = Object.assign(
+    {},
+    distConfiguration.display,
+    localConfiguration.display,
+  );
   module.exports = mergedConfiguration;
 } else {
   module.exports = distConfiguration;
