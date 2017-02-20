@@ -5,6 +5,7 @@
   "main": "lib/server.js",
   "scripts": {
     "start": "babel-node app/main.js",
+    "lint": "./node_modules/.bin/eslint './**/*.js'",
     "test": "mocha tests --recursive --compilers js:babel-register"
   },
   "dependencies": {
