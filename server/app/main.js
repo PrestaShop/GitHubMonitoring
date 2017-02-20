@@ -1,6 +1,7 @@
 const createServer = require('../lib/server').create;
 const configuration = require('../configuration');
 const fetchData = require('./fetchData');
+const routes = require('./routes');
 const async = require('async');
 const colors = require('colors');
 
@@ -23,6 +24,10 @@ async.waterfall([
   (result, next) => {
     server = result;
     process.stdout.write(colors.green(`Server correctly started and listen for ${configuration.server.port}\n`));
+    next();
+  },
+  (next) => {
+    server.route(routes);
     next();
   },
 ], (err) => {
