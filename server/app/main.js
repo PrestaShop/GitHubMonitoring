@@ -1,11 +1,23 @@
 const createServer = require('../lib/server').create;
 const configuration = require('../configuration');
+const fetchData = require('./fetchData');
 const async = require('async');
 const colors = require('colors');
 
 let server;
+
 async.waterfall([
   (next) => {
+    process.stdout.write(colors.gray('Fetching issues…\n'));
+    fetchData(configuration, next);
+  },
+  (issues, next) => {
+    process.stdout.write(colors.green(issues.length));
+    process.stdout.write(' issue(s) found\n');
+    next();
+  },
+  (next) => {
+    process.stdout.write(colors.gray('Server initialization…\n'));
     createServer(configuration.server, next);
   },
   (result, next) => {
