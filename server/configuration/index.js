@@ -1,9 +1,14 @@
+const fs = require('fs');
+const path = require('path');
 const distConfiguration = require('./configuration.dist');
-const localConfiguration = require.resolve('./configuration.local') ? require('./configuration.local') : null;
 
-if (localConfiguration) {
+const localConfigurationPath = path.resolve(__dirname, 'configuration.local.json');
+if (fs.existsSync(localConfigurationPath)) {
+  const localConfiguration = JSON.parse(fs.readFileSync(localConfigurationPath, 'utf8'));
   const mergedConfiguration = {
     github: {},
+    server: {},
+    display: {},
   };
   mergedConfiguration.github = Object.assign(
     {},
