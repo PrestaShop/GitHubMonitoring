@@ -4,6 +4,11 @@ const inert = require('inert');
 const joi = require('joi');
 const async = require('async');
 
+/**
+ * Validate the needed settings for the server.
+ * @param {object} settings - Settings to validate.
+ * @param {requestCallback} callback
+ */
 const validateSettings = (settings, callback) => {
   joi.validate(
     settings,
@@ -17,6 +22,11 @@ const validateSettings = (settings, callback) => {
   );
 };
 
+/**
+ * Create the server of the application.
+ * @param {object} settings - Server settings.
+ * @param {requestCallback} callback
+ */
 const create = (settings, callback) => {
   let server;
   async.waterfall([
