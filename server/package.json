@@ -4,7 +4,7 @@
   "private": true,
   "main": "lib/server.js",
   "scripts": {
-    "start": "babel-node lib/server.js",
+    "start": "babel-node app/main.js",
     "test": "mocha tests --recursive --compilers js:babel-register"
   },
   "dependencies": {
