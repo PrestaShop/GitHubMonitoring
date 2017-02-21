@@ -38,4 +38,25 @@ describe('eventToIssueData', () => {
       );
     });
   });
+  describe('#eventToApiData', () => {
+    it('should not return an error if the event is known', (done) => {
+      eventToIssueData.eventToApiData('pull_request', defaultEventPullRequest, (err) => {
+        assert.isNull(err);
+        done();
+      });
+    });
+    it('should return a correct JSON object', (done) => {
+      eventToIssueData.eventToApiData('pull_request', defaultEventPullRequest, (err, pull) => {
+        assert.isObject(pull);
+        assert.equal('Update the README with new information', pull.title);
+        done();
+      });
+    });
+    it('should return an error if the event is unknown', (done) => {
+      eventToIssueData.eventToApiData('unknown', defaultEventPullRequest, (err) => {
+        assert.isNotNull(err);
+        done();
+      });
+    });
+  });
 });

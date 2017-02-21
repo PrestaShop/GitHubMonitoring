@@ -20,7 +20,27 @@ const issueCommentEventToCommentsList = (issueCommentEventData, callback) => {
   callback(null, comments);
 };
 
+/**
+ * Convert, if possible, a event content to a GitHub API data.
+ * @param {string} eventName - Name of the event.
+ * @param {data} object - Event data.
+ * @param {requestCallback} callback
+ */
+const eventToApiData = (eventName, data, callback) => {
+  switch (eventName) {
+    case 'pull_request':
+      pullRequestEventToPull(data, callback);
+      break;
+    case 'issue_comment':
+      issueCommentEventToCommentsList(data, callback);
+      break;
+    default:
+      callback(`The event ${eventName} is unknown.`);
+  }
+};
+
 module.exports = {
   pullRequestEventToPull,
   issueCommentEventToCommentsList,
+  eventToApiData,
 };
