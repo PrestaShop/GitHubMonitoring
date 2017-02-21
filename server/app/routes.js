@@ -5,6 +5,9 @@ const issue = require('../lib/issue');
 const issuesContainer = require('../lib/issuesContainer');
 const githubApi = require('../lib/githubApi');
 
+/**
+ * @var {Array} - Array containing exported routes.
+ */
 const routes = [];
 
 // Route used to return static files to the clients.

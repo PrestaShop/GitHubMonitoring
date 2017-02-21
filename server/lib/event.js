@@ -1,8 +1,18 @@
+/**
+ * @var {object} - Base object for returned events.
+ */
 const defaultEvent = {
   name: null,
   action: null,
+  number: null,
+  body: null,
 };
 
+/**
+ * Create an event from a GitHub pull_request event.
+ * @param {object} eventData - GitHub event data.
+ * @param {requestCallback} callback
+ */
 const createFromPullRequest = (eventData, callback) => {
   const newEvent = Object.assign({}, defaultEvent);
 
@@ -37,6 +47,11 @@ const createFromPullRequest = (eventData, callback) => {
   callback(null, newEvent);
 };
 
+/**
+ * Create an event from a GitHub issue_comment event.
+ * @param {object} eventData - GitHub event data.
+ * @param {requestCallback} callback
+ */
 const createFromIssueComment = (eventData, callback) => {
   const newEvent = Object.assign({}, defaultEvent);
 
@@ -62,6 +77,11 @@ const createFromIssueComment = (eventData, callback) => {
   callback(null, newEvent);
 };
 
+/**
+ * Return the event factory for the sended event name.
+ * @param {string} eventName - GitHub event name.
+ * @return {function} - Function to call to create the event.
+ */
 const getFactoryForEventName = (eventName) => {
   switch (eventName) {
     case 'issue_comment':
