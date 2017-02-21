@@ -9,12 +9,12 @@ const issuesContainer = require('../lib/issuesContainer');
  * @param {requestCallback} callback
  */
 const fetchData = (configuration, callback) => {
+  const issues = [];
   async.waterfall([
     (next) => {
       githubApi.setSettings(configuration.github, next);
     },
     (next) => {
-      const pulls = [];
       let page = 0;
       async.doWhilst(
         (whilstNext) => {
@@ -25,74 +25,55 @@ const fetchData = (configuration, callback) => {
               return;
             }
             result.forEach((pull) => {
-              pulls.push(pull);
+              issues.push(pull.number);
             });
             whilstNext();
           });
         },
-        () => pulls.length === page * 100,
-        (err) => {
-          next(err, pulls);
-        },
+        () => issues.length === page * 100,
+        next,
       );
     },
-    (pulls, next) => {
+    (next) => {
       githubApi.getMergedPullRequests(configuration.display.merged_display_time, (err, result) => {
-        if (err) {
-          next(err);
-          return;
+        if (!err) {
+          result.forEach((pull) => {
+            issues.push(pull.number);
+          });
         }
-        result.forEach((pull) => {
-          pulls.push(pull);
-        });
-        next(null, pulls);
+        next(err);
       });
     },
-    (issues, next) => {
+    (next) => {
       async.each(
         issues,
-        (issueData, nextEach) => {
-          const newIssue = issue.getNew();
-          issue.extractPullData(newIssue, issueData, (err, finalIssue) => {
-            if (err) {
-              nextEach(err);
-              return;
-            }
-            issuesContainer.addIssue(finalIssue);
-            nextEach();
-          });
+        (number, nextEach) => {
+          let newIssue = issue.getNew();
+          async.waterfall([
+            (innerNext) => {
+              githubApi.getPullRequest(number, innerNext);
+            },
+            (result, innerNext) => {
+              issue.extractPullData(newIssue, result, innerNext);
+            },
+            (result, innerNext) => {
+              newIssue = result;
+              githubApi.getComments(number, Math.floor(newIssue.comments / 10), innerNext);
+            },
+            (result, innerNext) => {
+              issue.extractCommentsData(newIssue, result, innerNext);
+            },
+            (result, innerNext) => {
+              issuesContainer.addIssue(result);
+              innerNext();
+            },
+          ], nextEach);
         },
         next,
       );
     },
     (next) => {
-      const issues = issuesContainer.getIssues();
-      async.each(
-        issues,
-        (currentIssue, nextEach) => {
-          githubApi.getComments(
-            currentIssue.number,
-            Math.floor(currentIssue.comments / 10),
-            (err, commentsData) => {
-              if (err) {
-                nextEach(err);
-                return;
-              }
-              issue.extractCommentsData(currentIssue, commentsData, (extractErr, finalIssue) => {
-                if (err) {
-                  nextEach(err);
-                  return;
-                }
-                issuesContainer.addIssue(finalIssue);
-                nextEach();
-              });
-            },
-          );
-        },
-        (err) => {
-          next(err, issuesContainer.getIssues());
-        },
-      );
+      next(null, issuesContainer.getIssues());
     },
   ], callback);
 };
