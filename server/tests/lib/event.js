@@ -136,4 +136,21 @@ describe('event', () => {
       });
     });
   });
+  describe('#getFactoryForEventName', () => {
+    it('should return the right function for the issue_comment event', () => {
+      assert.equal(
+        event.getFactoryForEventName('issue_comment').name,
+        'createFromIssueComment',
+      );
+    });
+    it('should return the right function for the pull_request event', () => {
+      assert.equal(
+        event.getFactoryForEventName('pull_request').name,
+        'createFromPullRequest',
+      );
+    });
+    it('should return null if the event does not exists', () => {
+      assert.isNull(event.getFactoryForEventName('nope'));
+    });
+  });
 });

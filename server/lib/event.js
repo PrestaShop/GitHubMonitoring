@@ -62,7 +62,19 @@ const createFromIssueComment = (eventData, callback) => {
   callback(null, newEvent);
 };
 
+const getFactoryForEventName = (eventName) => {
+  switch (eventName) {
+    case 'issue_comment':
+      return createFromIssueComment;
+    case 'pull_request':
+      return createFromPullRequest;
+    default:
+      return null;
+  }
+};
+
 module.exports = {
   createFromPullRequest,
   createFromIssueComment,
+  getFactoryForEventName,
 };
