@@ -57,11 +57,15 @@ routes.push({
           currentEvent.body = result;
           request.server.broadcast({ event: currentEvent });
           if (currentEvent.number !== 'undefined' && currentEvent.number > 0) {
-            githubApi.getPull(currentEvent.number, next);
+            githubApi.getPullRequest(currentEvent.number, next);
           }
         },
         (result, next) => {
-          issue.extractPullData(issuesContainer.getIssue(currentEvent.number), result, next);
+          currentIssue = issuesContainer.getIssue(currentEvent.number);
+          if (currentIssue === null) {
+            currentIssue = issue.getNew();
+          }
+          issue.extractPullData(currentIssue, result, next);
         },
         (result, next) => {
           currentIssue = result;
@@ -71,7 +75,7 @@ routes.push({
           issue.extractCommentsData(currentIssue, result, next);
         },
         (result) => {
-          issuesContainer.add(result);
+          issuesContainer.addIssue(result);
           request.server.broadcast({ issue: result });
         },
       ]);
