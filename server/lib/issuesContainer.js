@@ -40,6 +40,18 @@ const getIssues = () => {
 };
 
 /**
+ * Return the wanted issue.
+ * @param {integer} number - The issue number.
+ * @return {object} - The issue.
+ */
+const getIssue = (number) => {
+  if (number in issues) {
+    return Object.assign({}, issues[number]);
+  }
+  return null;
+};
+
+/**
  * Return the amount of issues.
  * @return {integer} - Amount of issues.
  */
@@ -50,4 +62,5 @@ module.exports = {
   clearAll,
   getIssues,
   count,
+  getIssue,
 };

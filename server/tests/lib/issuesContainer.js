@@ -86,4 +86,24 @@ describe('issuesContainer', () => {
       assert.equal(3, issuesContainer.count());
     });
   });
+  describe('#getIssue', () => {
+    before(() => {
+      issuesContainer.clearAll();
+      issuesContainer.addIssue({ number: 1, title: 'Title 1' });
+      issuesContainer.addIssue({ number: 2, title: 'Title 2' });
+    });
+    it('should return null if a issue does not exists', () => {
+      const issue = issuesContainer.getIssue(3);
+      assert.isNull(issue);
+    });
+    it('should return the correct issue', () => {
+      const issue = issuesContainer.getIssue(2);
+      assert.equal('Title 2', issue.title);
+    });
+    it('should return a imutable issue', () => {
+      const issue1 = issuesContainer.getIssue(1);
+      const issue2 = issuesContainer.getIssue(1);
+      assert.equal(false, issue1 === issue2);
+    });
+  });
 });
