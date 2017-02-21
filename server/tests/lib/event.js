@@ -1,6 +1,7 @@
 const event = require('../../lib/event');
 const assert = require('chai').assert;
 const defaultEventPullRequest = require('../resources/eventPullRequest');
+const defaultEventIssueComment = require('../resources/eventIssueComment');
 
 describe('event', () => {
   describe('#createFromPullRequest', () => {
@@ -83,6 +84,54 @@ describe('event', () => {
       newEventPullRequest.pull_request.merged_by = null;
       event.createFromPullRequest(defaultEventPullRequest, (err, result) => {
         assert.isNull(result.merged_by);
+        done();
+      });
+    });
+  });
+  describe('#createFromIssueComment', () => {
+    let newEvent;
+    it('should return the event without error', (done) => {
+      event.createFromIssueComment(defaultEventIssueComment, (err, result) => {
+        assert.isNull(err);
+        newEvent = result;
+        done();
+      });
+    });
+    it('should correctly a imutable event object', (done) => {
+      event.createFromIssueComment(defaultEventIssueComment, (err, otherEvent) => {
+        assert.equal(false, newEvent === otherEvent);
+        done();
+      });
+    });
+    it('should correctly take the event name', (done) => {
+      assert.equal('issue_comment', newEvent.name);
+      done();
+    });
+    it('should correctly take the event action', (done) => {
+      assert.equal('created', newEvent.action);
+      done();
+    });
+    it('should correctly take the pull request number', (done) => {
+      assert.equal(2, newEvent.number);
+      done();
+    });
+    it('should correctly take the pull request title', (done) => {
+      assert.equal('Spelling error in the README file', newEvent.title);
+      done();
+    });
+    it('should correctly take the pull request body', (done) => {
+      assert.equal('It looks like you accidently spelled \'commit\' with two \'t\'s.', newEvent.body);
+      done();
+    });
+    it('should correctly take the comment created_at', (done) => {
+      assert.equal('2015-05-05T23:40:28Z', newEvent.created_at);
+      done();
+    });
+    it('should return an error if the a parameter is missing', (done) => {
+      const newEventIssueComment = Object.assign({}, defaultEventIssueComment);
+      delete newEventIssueComment.issue.user.login;
+      event.createFromPullRequest(newEventIssueComment, (err) => {
+        assert.isNotNull(err);
         done();
       });
     });

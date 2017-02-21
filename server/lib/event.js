@@ -1,4 +1,3 @@
-
 const defaultEvent = {
   name: null,
   action: null,
@@ -38,6 +37,32 @@ const createFromPullRequest = (eventData, callback) => {
   callback(null, newEvent);
 };
 
+const createFromIssueComment = (eventData, callback) => {
+  const newEvent = Object.assign({}, defaultEvent);
+
+  try {
+    newEvent.name = 'issue_comment';
+    newEvent.action = eventData.action;
+
+    newEvent.number = eventData.issue.number;
+    newEvent.title = eventData.issue.title;
+    newEvent.body = eventData.issue.body;
+
+    newEvent.user = {
+      login: eventData.comment.user.login,
+      avatar_url: eventData.comment.user.avatar_url,
+    };
+
+    newEvent.created_at = eventData.comment.created_at;
+  } catch (err) {
+    callback(err);
+    return;
+  }
+
+  callback(null, newEvent);
+};
+
 module.exports = {
   createFromPullRequest,
+  createFromIssueComment,
 };
