@@ -14,3 +14,6 @@ test:
     - cd server && ./node_modules/.bin/eslint './**/*.js' -f junit -o $CIRCLE_TEST_REPORTS/server/lint-results.xml:
         environment:
           MOCHA_FILE: $CIRCLE_TEST_REPORTS/server/lint-results.xml
+    - cd server && ./node_modules/.bin/mocha tests  --recursive --compilers js:babel-register --reporter mocha-junit-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/server/tests-results.xml:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/server/tests-results.xml

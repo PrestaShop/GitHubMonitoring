@@ -17,16 +17,6 @@ const store = new Vuex.Store({
         return b.number - a.number;
       });
     },
-    updatePull: (state, pullUpdate) => {
-      let indexToUpdate = -1;
-      state.pulls.forEach((pull, index) => {
-        if (pull.number == pullUpdate.number) {
-          Object.keys(pullUpdate).forEach((key) => {
-            Vue.set(state.pulls[index], key, pullUpdate[key]);
-          });
-        }
-      });
-    },
     removePull: (state, pullToRemove) => {
       let indexToRemove = -1;
       state.pulls.forEach((pull, index) => {
@@ -39,12 +29,21 @@ const store = new Vuex.Store({
       }
     },
     addPull: (state, pullToAdd) => {
+      let indexToRemove = -1;
+      state.pulls.forEach((pull, index) => {
+        if (pull.number == pullToAdd.number) {
+          indexToRemove = index;
+        }
+      });
+      if (indexToRemove !== -1) {
+        state.pulls.splice(indexToRemove, 1);
+      }
       state.pulls.push(pullToAdd);
       state.pulls.sort((a, b) => {
         return b.number - a.number;
       });
     },
-  },
+  }
 });
 
 const vm = new Vue({
@@ -67,23 +66,14 @@ client.connect((err) => {
 
   let events = [];
   client.onUpdate = (update) => {
-    if (update.is_event) {
-      switch (update.type) {
-        case 'opened':
-          store.commit('addPull', update);
-          break;
-        case 'created':
-        case 'assigned':
-        case 'unassigned':
-          store.commit('updatePull', update);
-          break;
-        case 'closed':
-          if (update.merged) {
-            store.commit('updatePull', update);
-          } else {
-            store.commit('removePull', update);
-          }
-          break;
+    if (typeof update.event !== 'undefined') {
+
+    }
+    if (typeof update.issue !== 'undefined') {
+      if (update.issue.state === 'closed' && !update.issue.merged) {
+        store.commit('removePull', update.issue);
+      } else {
+        store.commit('addPull', update.issue);
       }
     }
   };

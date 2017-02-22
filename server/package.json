@@ -2,17 +2,29 @@
   "name": "server-socket",
   "version": "1.0.0",
   "private": true,
+  "main": "lib/server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "babel-node app/main.js",
+    "lint": "./node_modules/.bin/eslint './**/*.js'",
+    "test": "mocha tests --recursive --compilers js:babel-register"
   },
   "dependencies": {
     "async": "^2.1.4",
+    "babel-cli": "^6.23.0",
+    "babel-register": "^6.23.0",
+    "chai": "^3.5.0",
+    "colors": "^1.1.2",
+    "dateformat": "^2.0.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
     "hapi": "^16.1.0",
     "inert": "^4.1.0",
+    "joi": "^10.2.2",
+    "mocha": "^3.2.0",
+    "mocha-junit-reporter": "^1.13.0",
     "nes": "^6.4.0",
+    "nock": "^9.0.6",
     "request": "^2.79.0"
   },
   "eslintConfig": {

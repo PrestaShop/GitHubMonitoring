@@ -13,21 +13,21 @@ const delays = configuration.delays;
 const ignoreUser = configuration.ignoreUser;
 const team = configuration.team;
 
-const DEBUG_PR = 7439;
-
 module.exports = {
   props: ['pull'],
   computed: {
     avatar_url: function() {
-      return this.pull.assignee_avatar ? this.pull.assignee_avatar : this.pull.merged_by_avatar;
+      return this.pull.assignee.avatar_url
+        ? this.pull.assignee.avatar_url
+        : this.pull.merged ? this.pull.merged_by.user.avatar_url : null;
     },
     status: function() {
       const pull = this.pull;
-      const lastCommentFromTeam = team.indexOf(pull.last_comment_user) != -1
-        && pull.last_comment_user !== pull.user;
+      const lastCommentFromTeam = team.indexOf(pull.last_comment.user.login) != -1
+        && pull.last_comment.user.login !== pull.user.login;
       const timeSinceCreation = Date.now() - (new Date(pull.created_at)).getTime();
-      const timeSinceLastComment = pull.last_comment_date
-        ? Date.now() - (new Date(pull.last_comment_date)).getTime()
+      const timeSinceLastComment = pull.last_comment.created_date
+        ? Date.now() - (new Date(pull.last_comment.created_date)).getTime()
         : Date.now();
 
       // By default a PR is marked as an alert (no defined class)
@@ -54,7 +54,7 @@ module.exports = {
       // - The last comment is from someone from the team and the date is less than x hours from the
       //   waitingForUserResponseAlert
       else if (
-        (pull.last_comment_user === '' && timeSinceCreation < delays.responseTimeAlert)
+        (pull.last_comment.login === null && timeSinceCreation < delays.responseTimeAlert)
         || (!lastCommentFromTeam && timeSinceLastComment < delays.responseTimeAlert)
         || (lastCommentFromTeam && timeSinceLastComment < delays.waitingForUserResponseAlert)
       ) {
@@ -63,16 +63,6 @@ module.exports = {
 
       if (pull.merged) {
         status = 'merged';
-      }
-
-      if (pull.number == DEBUG_PR) {
-        console.log('Statuses:', {
-          ok: status == 'ok',
-          warning: status == 'warning',
-          error: status == 'error',
-          merged: status == 'merged',
-          'wait-for-user': lastCommentFromTeam && status !== 'merged',
-        });
       }
 
       return {
