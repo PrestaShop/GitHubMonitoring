@@ -38,7 +38,14 @@ const defaultIssue = {
  * Return a new issue.
  * @return {object} - New issue.
  */
-const getNew = () => Object.assign({}, defaultIssue);
+const getNew = () => Object.assign({}, defaultIssue, {
+  user: Object.assign({}, defaultIssue.user),
+  assignee: Object.assign({}, defaultIssue.assignee),
+  merged_by: Object.assign({}, defaultIssue.merged_by),
+  last_comment: Object.assign({}, defaultIssue.last_comment, {
+    user: Object.assign({}, defaultIssue.last_comment.user),
+  }),
+});
 
 /**
  * Extract the data from an API pull.

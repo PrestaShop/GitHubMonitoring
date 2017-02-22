@@ -14,6 +14,11 @@ describe('issue', () => {
       const newIssue2 = issue.getNew();
       assert.equal(false, newIssue1 === newIssue2);
     });
+    it('should have the childs immutable', () => {
+      const newIssue1 = issue.getNew();
+      const newIssue2 = issue.getNew();
+      assert.equal(false, newIssue1.assignee === newIssue2.assignee);
+    });
   });
   describe('#extractPullData', () => {
     let testedIssue;
