@@ -2,6 +2,7 @@ const path = require('path');
 const async = require('async');
 const event = require('../lib/event');
 const issue = require('../lib/issue');
+const colors = require('colors');
 const issuesContainer = require('../lib/issuesContainer');
 const githubApi = require('../lib/githubApi');
 
@@ -36,7 +37,8 @@ routes.push({
   method: 'POST',
   path: '/',
   handler: (request) => {
-    const eventBuilder = event.getFactoryForEventName(request.headers['x-github-event']);
+    const eventName = request.headers['x-github-event'];
+    const eventBuilder = event.getFactoryForEventName(eventName);
     const eventData = request.payload;
     let currentEvent = null;
     let currentIssue = null;
@@ -83,6 +85,8 @@ routes.push({
           request.server.broadcast({ issue: result });
         },
       ]);
+    } else {
+      process.stdout.write(colors.yellow(`The event ${eventName} is not supported.\n`));
     }
   },
 });

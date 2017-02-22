@@ -78,6 +78,30 @@ const createFromIssueComment = (eventData, callback) => {
 };
 
 /**
+ * Create an event from a GitHub watch event.
+ * @param {object} eventData - GitHub event data.
+ * @param {requestCallback} callback
+ */
+const createFromWatch = (eventData, callback) => {
+  const newEvent = Object.assign({}, defaultEvent);
+
+  try {
+    newEvent.name = 'watch';
+    newEvent.action = eventData.action;
+
+    newEvent.user = {
+      login: eventData.sender.login,
+      avatar_url: eventData.sender.avatar_url,
+    };
+  } catch (err) {
+    callback(err);
+    return;
+  }
+
+  callback(null, newEvent);
+};
+
+/**
  * Return the event factory for the sended event name.
  * @param {string} eventName - GitHub event name.
  * @return {function} - Function to call to create the event.
@@ -88,6 +112,8 @@ const getFactoryForEventName = (eventName) => {
       return createFromIssueComment;
     case 'pull_request':
       return createFromPullRequest;
+    case 'watch':
+      return createFromWatch;
     default:
       return null;
   }
@@ -96,5 +122,6 @@ const getFactoryForEventName = (eventName) => {
 module.exports = {
   createFromPullRequest,
   createFromIssueComment,
+  createFromWatch,
   getFactoryForEventName,
 };
