@@ -106,4 +106,26 @@ describe('issuesContainer', () => {
       assert.equal(false, issue1 === issue2);
     });
   });
+  describe('#removeIssue', () => {
+    beforeEach(() => {
+      issuesContainer.clearAll();
+      issuesContainer.addIssue({ number: 1, title: 'Title 1' });
+      issuesContainer.addIssue({ number: 2, title: 'Title 2' });
+    });
+    it('should correctly remove the issue', () => {
+      issuesContainer.removeIssue({ number: 2, title: 'Title 2' });
+      const allIssues = issuesContainer.getIssues();
+      assert.equal(1, allIssues.length);
+    });
+    it('should correctly remove the right issue', () => {
+      issuesContainer.removeIssue({ number: 1, title: 'Title 1' });
+      const allIssues = issuesContainer.getIssues();
+      assert.equal('Title 2', allIssues[0].title);
+    });
+    it('should not throw an error if the issue does not exists', () => {
+      assert.doesNotThrow(() => {
+        issuesContainer.removeIssue({ number: 4, title: 'Title 1' });
+      });
+    });
+  });
 });

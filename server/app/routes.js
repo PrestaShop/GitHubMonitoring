@@ -75,7 +75,11 @@ routes.push({
           issue.extractCommentsData(currentIssue, result, next);
         },
         (result) => {
-          issuesContainer.addIssue(result);
+          if (result.state === 'closed' && !result.merged) {
+            issuesContainer.removeIssue(result);
+          } else {
+            issuesContainer.addIssue(result);
+          }
           request.server.broadcast({ issue: result });
         },
       ]);

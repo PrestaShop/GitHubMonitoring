@@ -52,6 +52,14 @@ const getIssue = (number) => {
 };
 
 /**
+ * Remove an issue.
+ * @param {object} issue - Issue to remove.
+ */
+const removeIssue = (issue) => {
+  delete issues[issue.number];
+};
+
+/**
  * Return the amount of issues.
  * @return {integer} - Amount of issues.
  */
@@ -63,4 +71,5 @@ module.exports = {
   getIssues,
   count,
   getIssue,
+  removeIssue,
 };
