@@ -2,6 +2,8 @@ const event = require('../../lib/event');
 const assert = require('chai').assert;
 const defaultEventPullRequest = require('../resources/eventPullRequest');
 const defaultEventIssueComment = require('../resources/eventIssueComment');
+const defaultEventWatch = require('../resources/eventWatch');
+const defaultEventFork = require('../resources/eventFork');
 
 describe('event', () => {
   describe('#createFromPullRequest', () => {
@@ -97,7 +99,7 @@ describe('event', () => {
         done();
       });
     });
-    it('should correctly a imutable event object', (done) => {
+    it('should correctly return a imutable event object', (done) => {
       event.createFromIssueComment(defaultEventIssueComment, (err, otherEvent) => {
         assert.equal(false, newEvent === otherEvent);
         done();
@@ -136,6 +138,86 @@ describe('event', () => {
       });
     });
   });
+  describe('#createFromWatch', () => {
+    let newEvent;
+    it('should return the event without error', (done) => {
+      event.createFromWatch(defaultEventWatch, (err, result) => {
+        assert.isNull(err);
+        newEvent = result;
+        done();
+      });
+    });
+    it('should correctly return a imutable event object', (done) => {
+      event.createFromWatch(defaultEventWatch, (err, otherEvent) => {
+        assert.equal(false, newEvent === otherEvent);
+        done();
+      });
+    });
+    it('should correctly take the event name', (done) => {
+      assert.equal('watch', newEvent.name);
+      done();
+    });
+    it('should correctly take the event action', (done) => {
+      assert.equal('started', newEvent.action);
+      done();
+    });
+    it('should correctly take the user login', (done) => {
+      assert.equal('baxterthehacker', newEvent.user.login);
+      done();
+    });
+    it('should correctly take the user avatar_url', (done) => {
+      assert.equal('https://avatars.githubusercontent.com/u/6752317?v=3', newEvent.user.avatar_url);
+      done();
+    });
+    it('should correctly return an error if a parameter is missing', (done) => {
+      const testEvent = Object.assign({}, defaultEventWatch);
+      delete testEvent.sender;
+      event.createFromWatch(testEvent, (err) => {
+        assert.isNotNull(err);
+        done();
+      });
+    });
+  });
+  describe('#createFromFork', () => {
+    let newEvent;
+    it('should return the event without error', (done) => {
+      event.createFromFork(defaultEventFork, (err, result) => {
+        assert.isNull(err);
+        newEvent = result;
+        done();
+      });
+    });
+    it('should correctly return a imutable event object', (done) => {
+      event.createFromFork(defaultEventFork, (err, otherEvent) => {
+        assert.equal(false, newEvent === otherEvent);
+        done();
+      });
+    });
+    it('should correctly take the event name', (done) => {
+      assert.equal('fork', newEvent.name);
+      done();
+    });
+    it('should correctly take the event action', (done) => {
+      assert.equal('forkee', newEvent.action);
+      done();
+    });
+    it('should correctly take the user login', (done) => {
+      assert.equal('baxterandthehackers', newEvent.user.login);
+      done();
+    });
+    it('should correctly take the user avatar_url', (done) => {
+      assert.equal('https://avatars.githubusercontent.com/u/7649605?v=3', newEvent.user.avatar_url);
+      done();
+    });
+    it('should correctly return an error if a parameter is missing', (done) => {
+      const testEvent = Object.assign({}, defaultEventFork);
+      delete testEvent.sender;
+      event.createFromFork(testEvent, (err) => {
+        assert.isNotNull(err);
+        done();
+      });
+    });
+  });
   describe('#getFactoryForEventName', () => {
     it('should return the right function for the issue_comment event', () => {
       assert.equal(
@@ -147,6 +229,18 @@ describe('event', () => {
       assert.equal(
         event.getFactoryForEventName('pull_request').name,
         'createFromPullRequest',
+      );
+    });
+    it('should return the right function for the watch event', () => {
+      assert.equal(
+        event.getFactoryForEventName('watch').name,
+        'createFromWatch',
+      );
+    });
+    it('should return the right function for the fork event', () => {
+      assert.equal(
+        event.getFactoryForEventName('fork').name,
+        'createFromFork',
       );
     });
     it('should return null if the event does not exists', () => {
