@@ -7,12 +7,14 @@ let delaiShort = 45;
 
 $('body').on('DOMNodeInserted', '#event-list', function(event) {
   const target = $(event.target);
-  if (!$(target).is('.event')) {
+  if (!target.is('.event')) {
     return;
   }
 
   if (target.is('.watch.started')) {
-    target.find('.head').find('.title').before(octicons.star.toSVG());
+    target.find('.head').find('.title').before(octicons['star'].toSVG());
+  } else if (target.is('.fork.forkee')) {
+    target.find('.head').find('.title').before(octicons['repo-forked'].toSVG());
   } else {
     target.hide();
   }
@@ -25,5 +27,5 @@ $('body').on('DOMNodeInserted', '#event-list', function(event) {
 
 module.exports.configuration = {
   max_events_displayed: 1,
-  delay_between_events: 120,
+  delay_between_events: 90,
 };

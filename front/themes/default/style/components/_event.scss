@@ -106,6 +106,18 @@ $display-time-long: 75s;
       animation-name: bounceOutDown;
     }
   }
+
+  &.watch.started {
+    $color: $color-ok;
+    > .head {
+      &:after {
+        background: $color;
+      }
+      > .octicon {
+        color: $color;
+      }
+    }
+  }
 }
 
 @keyframes fadeIn {

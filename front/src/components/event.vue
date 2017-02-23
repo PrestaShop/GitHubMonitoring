@@ -38,9 +38,11 @@ module.exports = {
       return classes;
     },
     eventTitle: function() {
-      switch (this.event.name) {
-        case 'watch':
+      switch (`${this.event.name}.${this.event.action}`) {
+        case 'watch.started':
           return 'New Star';
+        case 'fork.forkee':
+          return 'Repo forked';
       };
     },
   },
