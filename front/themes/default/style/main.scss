@@ -1,11 +1,14 @@
 @import 'settings';
 @import 'fonts';
+@import 'mixins';
 
 body {
   color: $color-white;
   background: $color-background;
   font-family: Lato, sans-serif;
   font-weight: 300;
+  overflow: hidden;
 }
 
-@import 'issues';
+@import 'components/issues';
+@import 'components/event';

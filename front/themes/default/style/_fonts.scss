@@ -1,23 +1,28 @@
 @font-face {
   font-family: lato;
-  src: url('fonts/Lato-Regular.ttf');
+  src: url('../fonts/Lato-Regular.ttf');
 }
 @font-face {
   font-family: lato;
   font-weight: 300;
-  src: url('fonts/Lato-Light.ttf');
+  src: url('../fonts/Lato-Light.ttf');
+}
+@font-face {
+  font-family: lato;
+  font-weight: 700;
+  src: url('../fonts/Lato-Bold.ttf');
 }
 
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url('fonts/MaterialIcons-Regular.eot'); /* For IE6-8 */
+  src: url('../fonts/MaterialIcons-Regular.eot'); /* For IE6-8 */
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
-       url('fonts/MaterialIcons-Regular.woff2') format('woff2'),
-       url('fonts/MaterialIcons-Regular.woff') format('woff'),
-       url('fonts/MaterialIcons-Regular.ttf') format('truetype');
+       url('../fonts/MaterialIcons-Regular.woff2') format('woff2'),
+       url('../fonts/MaterialIcons-Regular.woff') format('woff'),
+       url('../fonts/MaterialIcons-Regular.ttf') format('truetype');
 }
 
 .material-icons {

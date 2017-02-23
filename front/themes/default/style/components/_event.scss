@@ -1,0 +1,138 @@
+$display-time-short: 45s;
+$display-time-long: 75s;
+
+.event {
+  color: $color-black;
+
+  &:before {
+    content: '';
+
+    @include fullParent();
+
+    z-index: 1;
+    animation-fill-mode: both;
+    animation-duration: 1s;
+    background: $color-black;
+    opacity: 0;
+  }
+
+  > .head, >.body {
+    $height: 266px;
+    $width: 820px;
+
+    @include centerElement($height, $width);
+
+    border-radius: 4px;
+    background-color: $color-white;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.8);
+
+    top: 1500%;
+    z-index: 2;
+    overflow: auto;
+    animation-fill-mode: both;
+    animation-duration: 1s;
+  }
+
+  .head {
+    font-size: 28px;
+    font-weight: 700;
+
+    > .user {
+      > .avatar {
+        position: absolute;
+        top: 60px;
+        right: 160px;
+        $size: 90px;
+        width: $size;
+        height: $size;
+        border-radius: 3px;
+      }
+      > .login {
+        position: absolute;
+        top: 172px;
+        right: 0;
+        width: 50%;
+        text-align: center;
+      }
+    }
+
+    > .title {
+      position: absolute;
+      top: 172px;
+      left: 0;
+      width: 50%;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    > .octicon {
+      color: $color-warning;
+      position: absolute;
+      top: 72px;
+      left: 162px;
+      height: 70px;
+      width: 70px;
+    }
+
+    &:after {
+      content: '';
+      height: 10px;
+      background: $color-warning;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      animation-timing-function: linear;
+      animation-duration: $display-time-short;
+      animation-name: inverseScroll;
+      animation-fill-mode: both;
+    }
+  }
+
+  &.animateShow {
+    &:before {
+      animation-name: fadeIn;
+    }
+    > .head {
+      animation-delay: .5s;
+      animation-name: bounceInUp;
+    }
+  }
+  &.animateHide {
+    &:before {
+      animation-name: fadeOut;
+      animation-delay: .5s;
+    }
+    > .head {
+      animation-name: bounceOutDown;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.75; }
+}
+@keyframes fadeOut {
+  from { opacity: 0.75; }
+  to { opacity: 0; }
+}
+
+@keyframes bounceInUp {
+  from { top: 500%; }
+  60% { top: 30%; }
+  75% { top: 60%; }
+  90% { top: 48%; }
+  to { top: 50%; }
+}
+@keyframes bounceOutDown {
+  from { top: 50%; }
+  10% { top: 48%; }
+  25% { top: 60%; }
+  40% { top: 30%; }
+  to { top: 500%; }
+}
+
+@keyframes inverseScroll {
+  from { width: 100% }
+  to { width: 0% }
+}
