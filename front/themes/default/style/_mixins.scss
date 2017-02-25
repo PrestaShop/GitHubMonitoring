@@ -19,3 +19,9 @@
   bottom: 0;
   left: 0;
 }
+
+@mixin singleLineHeight($height) {
+  line-height: $height;
+  height: $height;
+  vertical-align: middle;
+}

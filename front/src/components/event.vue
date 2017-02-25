@@ -9,18 +9,18 @@
     </div>
     <div class="body">
       <div class="title">
-        <div class="number"></div>
-        <div class="text"></div>
+        <div class="number">{{ event.number }}</div>
+        <div class="text">{{ event.title }}</div>
       </div>
-      <div class="user">
-        <img class="avatar" src="">
-        <div class="login"></div>
+      <div v-if="event.merged_by" class="merged_by">
+        <img class="avatar" :src="event.merged_by.avatar_url">
+        <div class="login">{{ event.merged_by.login }}</div>
       </div>
       <div class="lines">
-        <div class="add"></div>
-        <div class="sub"></div>
+        <div class="add">{{ event.additions }}</div>
+        <div class="sub">{{ event.deletions }}</div>
       </div>
-      <div class="description"></div>
+      <div v-html="event.body" class="description"></div>
     </div>
   </div>
 </template>
@@ -43,6 +43,12 @@ module.exports = {
           return 'New Star';
         case 'fork.forkee':
           return 'Repo forked';
+        case 'pull_request.opened':
+          return 'New pull request';
+        case 'pull_request.merged':
+          return 'Pull request merged';
+        case 'issue_comment.created':
+          return 'New comment';
       };
     },
   },

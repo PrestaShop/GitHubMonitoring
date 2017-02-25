@@ -15,9 +15,17 @@ $('body').on('DOMNodeInserted', '#event-list', function(event) {
     target.find('.head').find('.title').before(octicons['star'].toSVG());
   } else if (target.is('.fork.forkee')) {
     target.find('.head').find('.title').before(octicons['repo-forked'].toSVG());
+  } else if (target.is('.pull_request.opened')) {
+    target.find('.head').find('.title').before(octicons['git-pull-request'].toSVG());
+  } else if (target.is('.pull_request.merged')) {
+    target.find('.head').find('.title').before(octicons['git-merge'].toSVG());
+  } else if (target.is('.issue_comment.created')) {
+    target.find('.head').find('.title').before(octicons['comment'].toSVG());
   } else {
     target.hide();
   }
+
+  target.find('.lines').prepend(octicons['code'].toSVG());
 
   target.addClass('animateShow');
   setTimeout(() => {

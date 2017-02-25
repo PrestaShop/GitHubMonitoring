@@ -90,7 +90,16 @@ client.connect((err) => {
   let events = [];
   client.onUpdate = (update) => {
     if (typeof update.event !== 'undefined') {
-      store.commit('addEvent', update.event);
+      if (
+        update.event.name === 'pull_request'
+        && update.event.action === 'closed'
+      ) {
+        if (update.event.merged_by !== null) {
+          store.commit('addEvent', Object.assign({}, update.event, { action: 'merged' }));
+        }
+      } else {
+        store.commit('addEvent', update.event);
+      }
     }
     if (typeof update.issue !== 'undefined') {
       if (update.issue.state === 'closed' && !update.issue.merged) {

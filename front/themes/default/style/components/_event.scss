@@ -1,12 +1,48 @@
 $display-time-short: 45s;
 $display-time-long: 75s;
 
+@mixin setColor($eventName, $eventAction, $color) {
+  &.#{$eventName}.#{$eventAction} {
+    > .head {
+      &:after {
+        background: $color;
+      }
+      > .octicon {
+        color: $color;
+      }
+    }
+    > .body {
+      > .title {
+        background: $color;
+      }
+    }
+  }
+}
+
+@mixin hasBody($eventName, $eventAction) {
+  &.#{$eventName}.#{$eventAction} {
+    > .head {
+      margin-top: -320px;
+    }
+    > .body {
+      display: block;
+      margin-top: 0;
+    }
+  }
+}
+
+@mixin avatar {
+  $size: 90px;
+  width: $size;
+  height: $size;
+  border-radius: 3px;
+}
+
 .event {
   color: $color-black;
 
   &:before {
     content: '';
-
     @include fullParent();
 
     z-index: 1;
@@ -17,23 +53,18 @@ $display-time-long: 75s;
   }
 
   > .head, >.body {
-    $height: 266px;
-    $width: 820px;
-
-    @include centerElement($height, $width);
-
+    @include centerElement(266px, 820px);
     border-radius: 4px;
     background-color: $color-white;
     box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.8);
 
-    top: 1500%;
     z-index: 2;
     overflow: auto;
     animation-fill-mode: both;
     animation-duration: 1s;
   }
 
-  .head {
+  > .head {
     font-size: 28px;
     font-weight: 700;
 
@@ -42,10 +73,7 @@ $display-time-long: 75s;
         position: absolute;
         top: 60px;
         right: 160px;
-        $size: 90px;
-        width: $size;
-        height: $size;
-        border-radius: 3px;
+        @include avatar();
       }
       > .login {
         position: absolute;
@@ -66,7 +94,6 @@ $display-time-long: 75s;
     }
 
     > .octicon {
-      color: $color-warning;
       position: absolute;
       top: 72px;
       left: 162px;
@@ -77,7 +104,6 @@ $display-time-long: 75s;
     &:after {
       content: '';
       height: 10px;
-      background: $color-warning;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -85,6 +111,105 @@ $display-time-long: 75s;
       animation-duration: $display-time-short;
       animation-name: inverseScroll;
       animation-fill-mode: both;
+    }
+  }
+
+  > .body {
+    @include centerElement(370px, 820px);
+    display: none;
+    margin-top: 0;
+    font-weight: bold;
+    font-size: 30px;
+
+    > .title {
+      $height: 95px;
+      color: $color-white;
+      height: $height;
+
+      > .number, > .text {
+        float: left;
+      }
+      > .number {
+        @include singleLineHeight(55px);
+        width: 170px;
+        background: $color-white;
+        color: $color-black;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+        text-align: center;
+        margin: 20px;
+      }
+      > .text {
+        @include singleLineHeight($height);
+        display: block;
+        width: 590px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    > .merged_by {
+      display: none;
+
+      > .avatar {
+        @include avatar();
+        margin: 20px;
+        float: left;
+      }
+      > .login {
+        float: left;
+        margin-top: 20px;
+        @include singleLineHeight(90px);
+      }
+    }
+
+    > .lines {
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+      border: solid 1px #cdcdcd;
+      display: inline-block;
+      @include singleLineHeight(70px);
+      margin: 20px;
+
+      > .octicon, > .add, > .sub {
+        float: left;
+        padding-left: 20px;
+        &.sub {
+          padding-right: 20px;
+        }
+      }
+      > .octicon {
+        height: 100%;
+        width: 30px;
+      }
+      > .add {
+        color: #2f9c46;
+        &:before {
+          content: '+';
+        }
+      }
+      > .sub {
+        color: #c32032;
+        &:before {
+          content: '-';
+        }
+      }
+    }
+
+    > .description {
+      line-height: 36px;
+      margin: 20px;
+      margin-top: 0;
+      height: 36px * 4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      p {
+        margin: 0;
+      }
+      table {
+        display: none;
+      }
     }
   }
 
@@ -96,6 +221,10 @@ $display-time-long: 75s;
       animation-delay: .5s;
       animation-name: bounceInUp;
     }
+    > .body  {
+      animation-delay: .65s;
+      animation-name: bounceInUp;
+    }
   }
   &.animateHide {
     &:before {
@@ -103,18 +232,37 @@ $display-time-long: 75s;
       animation-delay: .5s;
     }
     > .head {
+      animation-delay: .15s;
+      animation-name: bounceOutDown;
+    }
+    > .body {
       animation-name: bounceOutDown;
     }
   }
 
-  &.watch.started {
-    $color: $color-ok;
+  @include setColor('watch', 'started', $color-ok);
+  @include setColor('pull_request', 'opened', $color-main);
+  @include setColor('issue_comment', 'created', $color-main);
+
+  @include hasBody('pull_request', 'opened');
+  @include hasBody('pull_request', 'merged');
+  @include hasBody('issue_comment', 'created');
+
+  @include setColor('pull_request', 'merged', $color-merged);
+
+  // Other specific styles
+  &.pull_request.merged {
     > .head {
-      &:after {
-        background: $color;
+      margin-top: -320px + 75px;
+    }
+    > .body {
+      margin-top: 75px;
+      height: 220px;
+      > .lines {
+        display: none;
       }
-      > .octicon {
-        color: $color;
+      > .merged_by {
+        display: block;
       }
     }
   }
