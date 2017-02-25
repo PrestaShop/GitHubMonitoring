@@ -57,7 +57,7 @@ const store = new Vuex.Store({
       state.events.push(event);
     },
     displayEvent: (state) => {
-      state.displayedEvents.push(state.events.pop());
+      state.displayedEvents.push(state.events.shift());
     },
   },
   actions: {

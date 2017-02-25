@@ -170,6 +170,7 @@ $display-time-long: 75s;
       display: inline-block;
       @include singleLineHeight(70px);
       margin: 20px;
+      margin-bottom: 0;
 
       > .octicon, > .add, > .sub {
         float: left;
@@ -199,7 +200,6 @@ $display-time-long: 75s;
     > .description {
       line-height: 36px;
       margin: 20px;
-      margin-top: 0;
       height: 36px * 4;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -241,6 +241,7 @@ $display-time-long: 75s;
   }
 
   @include setColor('watch', 'started', $color-ok);
+  @include setColor('fork', 'forkee', $color-warning);
   @include setColor('pull_request', 'opened', $color-main);
   @include setColor('issue_comment', 'created', $color-main);
 
@@ -263,6 +264,16 @@ $display-time-long: 75s;
       }
       > .merged_by {
         display: block;
+      }
+      > .description {
+        display: none;
+      }
+    }
+  }
+  &.issue_comment.created {
+    >  .body {
+      > .lines {
+        display: none;
       }
     }
   }
