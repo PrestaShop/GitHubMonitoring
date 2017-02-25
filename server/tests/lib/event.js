@@ -122,7 +122,7 @@ describe('event', () => {
       done();
     });
     it('should correctly take the pull request body', (done) => {
-      assert.equal('It looks like you accidently spelled \'commit\' with two \'t\'s.', newEvent.body);
+      assert.equal('You are totally right! I\'ll get this fixed right away.', newEvent.body);
       done();
     });
     it('should correctly take the comment created_at', (done) => {
