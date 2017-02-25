@@ -62,7 +62,7 @@ const createFromIssueComment = (eventData, callback) => {
 
     newEvent.number = eventData.issue.number;
     newEvent.title = eventData.issue.title;
-    newEvent.body = eventData.issue.body;
+    newEvent.body = eventData.comment.body;
 
     newEvent.user = {
       login: eventData.comment.user.login,

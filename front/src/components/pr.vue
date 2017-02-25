@@ -19,15 +19,15 @@ module.exports = {
     avatar_url: function() {
       return this.pull.assignee.avatar_url
         ? this.pull.assignee.avatar_url
-        : this.pull.merged ? this.pull.merged_by.user.avatar_url : null;
+        : this.pull.merged ? this.pull.merged_by.avatar_url : null;
     },
     status: function() {
       const pull = this.pull;
       const lastCommentFromTeam = team.indexOf(pull.last_comment.user.login) != -1
         && pull.last_comment.user.login !== pull.user.login;
       const timeSinceCreation = Date.now() - (new Date(pull.created_at)).getTime();
-      const timeSinceLastComment = pull.last_comment.created_date
-        ? Date.now() - (new Date(pull.last_comment.created_date)).getTime()
+      const timeSinceLastComment = pull.last_comment.created_at
+        ? Date.now() - (new Date(pull.last_comment.created_at)).getTime()
         : Date.now();
 
       // By default a PR is marked as an alert (no defined class)

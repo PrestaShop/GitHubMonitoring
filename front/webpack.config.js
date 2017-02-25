@@ -20,11 +20,14 @@ module.exports = {
       test: /\.scss$/,
       use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap'],
     }, {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader?sourceMap'],
+    }, {
       test: /\.vue$/,
       use: 'vue-loader',
     }, {
       test: /\.json$/,
-      use: 'json',
+      use: 'json-loader',
     }, {
       test: /.(jpg|png|woff(2)?|eot|otf|ttf|svg)(\?[a-z0-9=\.]+)?$/,
       use: 'file-loader?name=[hash].[ext]'

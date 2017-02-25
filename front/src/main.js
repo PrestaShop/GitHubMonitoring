@@ -1,4 +1,4 @@
-require('../style/main.scss');
+const theme = require('../themes/default');
 const Vue = require('vue');
 const Vuex = require('vuex');
 const Nes = require('nes');
@@ -6,9 +6,19 @@ const app = require('./components/app');
 
 Vue.use(Vuex);
 
+let configuration = {
+  max_events_displayed: 10,
+  delay_between_events: 1,
+};
+if (typeof theme.configuration !== 'undefined') {
+  configuration = Object.assign(configuration, theme.configuration);
+}
+
 const store = new Vuex.Store({
   state: {
     pulls: [],
+    events: [],
+    displayedEvents: [],
   },
   mutations: {
     setPulls: (state, pulls) => {
@@ -43,13 +53,26 @@ const store = new Vuex.Store({
         return b.number - a.number;
       });
     },
-  }
+    addEvent: (state, event) => {
+      state.events.push(event);
+    },
+    displayEvent: (state) => {
+      state.displayedEvents.push(state.events.shift());
+    },
+  },
+  actions: {
+    displayEvent(context) {
+      if (context.state.displayedEvents.length === configuration.max_events_displayed) {
+        context.state.displayedEvents.pop();
+      }
+      setTimeout(() => {
+        context.commit('displayEvent');
+      });
+    },
+  },
 });
 
 const vm = new Vue({
-  data: {
-    pulls: {},
-  },
   store,
   el: '#app',
   template: '<app/>',
@@ -67,7 +90,16 @@ client.connect((err) => {
   let events = [];
   client.onUpdate = (update) => {
     if (typeof update.event !== 'undefined') {
-
+      if (
+        update.event.name === 'pull_request'
+        && update.event.action === 'closed'
+      ) {
+        if (update.event.merged_by !== null) {
+          store.commit('addEvent', Object.assign({}, update.event, { action: 'merged' }));
+        }
+      } else {
+        store.commit('addEvent', update.event);
+      }
     }
     if (typeof update.issue !== 'undefined') {
       if (update.issue.state === 'closed' && !update.issue.merged) {
@@ -78,13 +110,16 @@ client.connect((err) => {
     }
   };
 
-  const displayEvent = () => {
-    let eventToDisplay = events.shift();
-    if (eventToDisplay) {
-      setTimeout(displayEvent, 10 * 1000);
-    } else {
-      setTimeout(displayEvent, 100);
-    }
-  }
-  setTimeout(displayEvent, 100);
+  const initNextEventDisplay = (timeout) => {
+    setTimeout(() => {
+      if (store.state.events.length > 0) {
+        store.dispatch('displayEvent');
+        initNextEventDisplay(configuration.delay_between_events * 1000);
+      } else {
+        initNextEventDisplay(100);
+      }
+    }, timeout);
+  };
+  initNextEventDisplay();
+
 });

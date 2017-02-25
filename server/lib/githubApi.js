@@ -71,8 +71,8 @@ const getOpenPullRequests = (page, callback) => {
   get(
     `/search/issues?q=type:pr+repo:${definedSettings.repository}${bases}+is:open&per_page=100&page=${page}`,
     (err, result) => {
-      if (err) {
-        callback(err);
+      if (err || typeof result.errors !== 'undefined') {
+        callback(err || result.errors[0].message);
       } else {
         callback(null, result.items);
       }
@@ -95,8 +95,8 @@ const getMergedPullRequests = (hours, callback) => {
   get(
     `/search/issues?q=type:pr+repo:${definedSettings.repository}${bases}+merged:>=${date}&per_page=100`,
     (err, result) => {
-      if (err) {
-        callback(err);
+      if (err || typeof result.errors !== 'undefined') {
+        callback(err || result.errors[0].message);
       } else {
         callback(null, result.items);
       }
@@ -110,7 +110,13 @@ const getMergedPullRequests = (hours, callback) => {
  * @param {requestCallback} callback
  */
 const getPullRequest = (number, callback) => {
-  get(`/repos/${definedSettings.repository}/pulls/${number}`, callback);
+  get(`/repos/${definedSettings.repository}/pulls/${number}`, (err, result) => {
+    if (err || typeof result.errors !== 'undefined') {
+      callback(err || result.errors[0].message);
+    } else {
+      callback(null, result);
+    }
+  });
 };
 
 /**
