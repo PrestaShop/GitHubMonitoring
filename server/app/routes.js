@@ -11,12 +11,22 @@ const githubApi = require('../lib/githubApi');
  */
 const routes = [];
 
-// Route used to return static files to the clients.
+// Routes used to return static files to the clients.
 routes.push({
   method: 'GET',
   path: '/',
   handler: (request, reply) => {
     reply.file(path.resolve(__dirname, '../../public/index.html'), { confine: false });
+  },
+});
+routes.push({
+  method: 'GET',
+  path: '/{file}',
+  handler: (request, reply) => {
+    const file = encodeURIComponent(request.params.file);
+    reply.file(path.resolve(__dirname, `../../public/${file}`), {
+      confine: false,
+    });
   },
 });
 
