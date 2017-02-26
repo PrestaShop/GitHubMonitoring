@@ -1,5 +1,6 @@
 require('./style/main.scss');
 require('./node_modules/octicons/build/octicons.css');
+
 const octicons = require('octicons');
 const $ = require('jquery');
 
@@ -37,3 +38,14 @@ module.exports.configuration = {
   max_events_displayed: 1,
   delay_between_events: 90,
 };
+
+$('body').on('DOMNodeInserted', '#pr-list', function(event) {
+  const target = $(event.target);
+  if (!target.is('.issue')) {
+    return;
+  }
+
+  if (target.is('.not-assigned')) {
+    target.append(octicons['octoface'].toSVG());
+  }
+});
