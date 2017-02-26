@@ -60,10 +60,14 @@
     right: 0;
   }
 
-  .not-assignee {
-    font-size: 16px;
-    line-height: $height;
-    vertical-align: middle;
-    padding-left: ($height / 2) - 8px;
+  &.not-assigned {
+    > .octicon {
+      $size: 19px;
+      position: absolute;
+      top: ($height - $size) / 2;
+      right: ($height - $size) / 2;
+      width: $size;
+      height: $size;
+    }
   }
 }

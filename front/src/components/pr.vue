@@ -1,7 +1,6 @@
 <template>
   <div :key="pull.number" class="issue" :class="status">
     <img class="avatar" v-if="avatar_url" :src="avatar_url"/>
-    <i class="material-icons not-assignee"v-if="!avatar_url">error_outline</i>
     <div class="number">{{ pull.number }}</div>
   </div>
 </template>
@@ -49,6 +48,7 @@ module.exports = {
         warning: status == 'warning',
         error: status == 'error',
         merged: status == 'merged',
+        'not-assigned': this.avatar_url === null,
       }
     },
   },
