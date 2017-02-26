@@ -2,8 +2,8 @@
 
 # GitHub Monitoring
 
-[![CircleCI](https://circleci.com/gh/Shudrum/GItHubMonitoring.svg?style=shield)](https://circleci.com/gh/Shudrum/GItHubMonitoring)
-[![Dependency Status](https://gemnasium.com/badges/github.com/Shudrum/GItHubMonitoring.svg)](https://gemnasium.com/github.com/Shudrum/GItHubMonitoring)
+[![CircleCI](https://circleci.com/gh/Shudrum/GitHubMonitoring.svg?style=shield)](https://circleci.com/gh/Shudrum/GitHubMonitoring)
+[![Dependency Status](https://gemnasium.com/badges/github.com/Shudrum/GitHubMonitoring.svg)](https://gemnasium.com/github.com/Shudrum/GitHubMonitoring)
 
 _What is GitHub Monitoring?_
 
