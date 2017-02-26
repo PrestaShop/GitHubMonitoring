@@ -1,5 +1,6 @@
 require('./style/main.scss');
 require('./node_modules/octicons/build/octicons.css');
+
 const octicons = require('octicons');
 const $ = require('jquery');
 
