@@ -1,14 +1,15 @@
 ![Header](documentation/images/readme-header.png?raw=true)
 
+_Default design by Tristan L.: [Twitter](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FTristanDardel&sa=D&sntz=1&usg=AFQjCNGXMboX2BYkhGnYs2XJxDhH1AOygw)_
+
 # GitHub Monitoring
 
 [![CircleCI](https://circleci.com/gh/Shudrum/GitHubMonitoring.svg?style=shield)](https://circleci.com/gh/Shudrum/GitHubMonitoring)
 [![Dependency Status](https://gemnasium.com/badges/github.com/Shudrum/GitHubMonitoring.svg)](https://gemnasium.com/github.com/Shudrum/GitHubMonitoring)
 
-_What is GitHub Monitoring?_
+**What is GitHub Monitoring?**
 
-When you work for an active closed, open or inner source project, there is always a pull request
-debt.
+When you work for an active closed, open or inner source project, there is always a pull request debt.
 
 You may want to motivate your team to be more active for the community and/or for the other team members. Maybe you want to set some response times?
 
