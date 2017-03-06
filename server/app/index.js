@@ -5,12 +5,10 @@ const routes = require('./routes');
 const async = require('async');
 const colors = require('colors');
 
-let server;
-
 async.waterfall([
   (next) => {
     process.stdout.write(colors.gray('Fetching issues…\n'));
-    fetchData(configuration, next);
+    fetchData(next);
   },
   (issues, next) => {
     process.stdout.write(colors.green(issues.length));
@@ -21,13 +19,9 @@ async.waterfall([
     process.stdout.write(colors.gray('Server initialization…\n'));
     createServer(configuration.server, next);
   },
-  (result, next) => {
-    server = result;
-    process.stdout.write(colors.green(`Server correctly started and listen for ${configuration.server.port}\n`));
-    next();
-  },
-  (next) => {
+  (server, next) => {
     server.route(routes);
+    process.stdout.write(colors.green(`Server correctly started and listen for ${configuration.server.port}\n`));
     next();
   },
 ], (err) => {
