@@ -3,6 +3,7 @@ const githubApi = require('../lib/githubApi');
 const issue = require('../lib/issue');
 const issuesContainer = require('../lib/issuesContainer');
 const configuration = require('../configuration');
+const middleware = require('../lib/middleware');
 
 /**
  * Fetch all open pull requests.
@@ -61,6 +62,11 @@ const fetchPullRequestsData = (issues, callback) => {
       async.waterfall([
         (next) => {
           githubApi.getPullRequest(number, next);
+        },
+        (pull, next) => {
+          middleware.on('pullFetched', { pull }, (err, result) => {
+            next(err, result.pull);
+          });
         },
         (result, next) => {
           issue.extractPullData(newIssue, result, next);
