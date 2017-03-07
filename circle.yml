@@ -3,7 +3,7 @@ machine:
     Europe/Paris
   node:
     version:
-      6.9.1
+      6.10.0
   services:
     - docker
 compile:
