@@ -5,6 +5,7 @@ const issue = require('../lib/issue');
 const colors = require('colors');
 const issuesContainer = require('../lib/issuesContainer');
 const githubApi = require('../lib/githubApi');
+const middleware = require('../lib/middleware');
 
 /**
  * @var {Array} - Array containing exported routes.
@@ -71,6 +72,11 @@ routes.push({
           if (currentEvent.number !== 'undefined' && currentEvent.number > 0) {
             githubApi.getPullRequest(currentEvent.number, next);
           }
+        },
+        (pull, next) => {
+          middleware.on('pullFetched', { pull }, (err, result) => {
+            next(err, result.pull);
+          });
         },
         (result, next) => {
           currentIssue = issuesContainer.getIssue(currentEvent.number);
