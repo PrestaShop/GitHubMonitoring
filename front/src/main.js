@@ -79,8 +79,7 @@ const vm = new Vue({
   components: { app },
 });
 
-const host = location.hostname + location.port ? `:${location.port}` : '';
-const client = new Nes.Client(`ws://${host}/ws`);
+const client = new Nes.Client(`ws://${location.host}/ws`);
 
 client.connect((err) => {
   client.request('connection', (err, payload) => {
