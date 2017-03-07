@@ -1,6 +1,6 @@
 const theme = require('../themes/default');
 const Vue = require('vue');
-const Vuex = require('vuex');
+const Vuex = require('vuex').default;
 const Nes = require('nes');
 const app = require('./components/app');
 

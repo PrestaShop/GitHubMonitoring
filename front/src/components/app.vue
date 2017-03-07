@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div id="pr-list">
-        <pr :key="pull.number" :pull="pull" v-for="pull in pulls"/>
+      <pr :key="pull.number" :pull="pull" v-for="pull in pulls"/>
     </div>
     <div id="event-list">
-      <event :event="event" v-for="event in events"/>
+      <event :key="event.number" :event="event" v-for="event in events"/>
     </div>
   </div>
 </template>
