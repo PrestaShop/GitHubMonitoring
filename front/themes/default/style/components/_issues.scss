@@ -1,18 +1,14 @@
 .issue {
-  $height: 55px;
-  $width: 174px;
-  $radius: 5px;
-
   box-sizing: border-box;
-  height: $height;
-  width: $width;
+  height: $issue-height;
+  width: $issue-width;
   margin: $margin;
 
   position: relative;
   display: inline-block;
   overflow: auto;
   float: left;
-  border-radius: $radius;
+  border-radius: $issue-radius;
 
   > .number,
   > .avatar {
@@ -20,11 +16,11 @@
   }
 
   > .number {
-    font-size: 28px;
+    font-size: $issue-font-size;
     display: inline-block;
-    height: $height;
-    width: $width - $height;
-    line-height: $height;
+    height: $issue-height;
+    width: $issue-width - $issue-height;
+    line-height: $issue-height;
     vertical-align: middle;
     text-align: center;
   }
@@ -53,8 +49,8 @@
   }
 
   > .avatar {
-    width: $height;
-    height: $height;
+    width: $issue-height;
+    height: $issue-height;
     position: absolute;
     top: 0;
     right: 0;
@@ -64,8 +60,8 @@
     > .octicon {
       $size: 19px;
       position: absolute;
-      top: ($height - $size) / 2;
-      right: ($height - $size) / 2;
+      top: ($issue-height - $size) / 2;
+      right: ($issue-height - $size) / 2;
       width: $size;
       height: $size;
     }
