@@ -1,5 +1,12 @@
 $margin: 8px;
 
+$issuesCount: 8;
+
+$issue-height: 68px;
+$issue-width: ((1920px - (2 * $margin)) / $issuesCount) - (2 * $margin);
+$issue-radius: 5px;
+$issue-font-size: 34px;
+
 $color-background: #303030;
 $color-ok: #37A958;
 $color-warning: #FF982B;
